@@ -1,2 +1,2 @@
-# .com
+# pizzacut.com
 مطعم بيتزا
