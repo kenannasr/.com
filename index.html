@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Cut Menu - منيو بيتزا كات</title>
+    <style>
+        :root {
+            --primary-color: #FFCC00; /* الأصفر الخاص باللوغو */
+            --dark-bg: #111111; /* الأسود الخلفية */
+            --card-bg: #1A1A1A; /* الأسود الفاتح للقوائم */
+            --text-color: #FFFFFF;
+            --text-muted: #CCCCCC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            padding-bottom: 100px;
+        }
+
+        /* الهيدر واللوغو */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(180deg, rgba(255,204,0,0.1) 0%, rgba(17,17,17,1) 100%);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            margin: 0 auto 15px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header .info {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* الأقسام */
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            border-right: 4px solid var(--primary-color);
+            padding-right: 10px;
+            margin: 25px 0 15px;
+            font-size: 20px;
+        }
+
+        /* كرت الوجبة */
+        .menu-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #222;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* خيارات الأحجام والأسعار */
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        /* للأصناف التي ليس لها أحجام */
+        .single-option {
+            grid-template-columns: 1fr !important;
+        }
+
+        .size-btn {
+            background-color: #222;
+            border: 1px solid #444;
+            color: var(--text-color);
+            padding: 8px 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .size-btn span {
+            display: block;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 3px;
+            font-size: 13px;
+        }
+
+        .size-btn.active {
+            background-color: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+        }
+
+        .size-btn.active span {
+            color: #000;
+        }
+
+        /* سلة المشتريات العائمة */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #151515;
+            border-top: 3px solid var(--primary-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .total-price span {
+            color: var(--primary-color);
+        }
+
+        .order-btn {
+            background-color: #25D366; /* لون الواتساب */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-btn:hover {
+            background-color: #20ba5a;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-placeholder">
+            <img src="73599.jpg" alt="Pizza Cut Logo">
+        </div>
+        <h1>Pizza Cut</h1>
+        <div class="info">
+            📍 ريف دمشق - أشرفية الصحنايا - موقف الناعورة <br>
+            📞 للاستعلام والطلب: 0953425218
+        </div>
+    </header>
+
+    <div class="container">
+
+        <h2 class="section-title">البيتزا الكلاسيك</h2>
+        
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">بيتزا فصول</div></div>
+            <div class="options-container">
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا فصول', 'صغير', 350)">صغير <span>350</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا فصول', 'وسط', 450)">وسط <span>450</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا فصول', 'جامبو', 750)">جامبو <span>750</span></button>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">بيتزا مارغريتا</div></div>
+            <div class="options-container">
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا مارغريتا', 'صغير', 350)">صغير <span>350</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا مارغريتا', 'وسط', 450)">وسط <span>450</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'بيتزا مارغريتا', 'جامبو', 750)">جامبو <span>750</span></button>
+            </div>
+        </div>
+
+        <h2 class="section-title">البيتزا المميزة</h2>
+        
+        <script>
+            const specialPizzas = ['شيش', 'مكسيكي', 'باربيكيو', 'داينمت', 'هوت دوغ', 'حبش', 'روستو', 'بيبروني'];
+            specialPizzas.forEach(name => {
+                document.write(`
+                <div class="menu-item">
+                    <div class="item-details"><div class="item-name">بيتزا ${name}</div></div>
+                    <div class="options-container">
+                        <button class="size-btn" onclick="selectItem(this, 'بيتزا ${name}', 'صغير', 450)">صغير <span>450</span></button>
+                        <button class="size-btn" onclick="selectItem(this, 'بيتزا ${name}', 'وسط', 550)">وسط <span>550</span></button>
+                        <button class="size-btn" onclick="selectItem(this, 'بيتزا ${name}', 'جامبو', 950)">جامبو <span>950</span></button>
+                    </div>
+                </div>
+                `);
+            });
+        </script>
+
+        <h2 class="section-title">بيتزا محشي الأطراف</h2>
+
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">محشي الأطراف (فصول / مارغريتا)</div></div>
+            <div class="options-container">
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف (فصول/مارغريتا)', 'صغير', 420)">صغير <span>420</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف (فصول/مارغريتا)', 'وسط', 520)">وسط <span>520</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف (فصول/مارغريتا)', 'جامبو', 850)">جامبو <span>850</span></button>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">محشي الأطراف (مع إضافة)</div></div>
+            <div class="options-container">
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف مع إضافة', 'صغير', 520)">صغير <span>520</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف مع إضافة', 'وسط', 620)">وسط <span>620</span></button>
+                <button class="size-btn" onclick="selectItem(this, 'محشي الأطراف مع إضافة', 'جامبو', 1000)">جامبو <span>1000</span></button>
+            </div>
+        </div>
+
+        <h2 class="section-title">السلطات</h2>
+
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">سلطة سيزر</div></div>
+            <div class="options-container single-option">
+                <button class="size-btn" onclick="selectItem(this, 'سلطة سيزر', 'عادي', 400)">طلب <span>400</span></button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">سلطة باستا بالمايونيز</div></div>
+            <div class="options-container single-option">
+                <button class="size-btn" onclick="selectItem(this, 'سلطة باستا بالمايونيز', 'عادي', 200)">طلب <span>200</span></button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">سلطة ذرة</div></div>
+            <div class="options-container single-option">
+                <button class="size-btn" onclick="selectItem(this, 'سلطة ذرة', 'عادي', 200)">طلب <span>200</span></button>
+            </div>
+        </div>
+
+        <h2 class="section-title">المشروبات</h2>
+
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">كولا تنك</div></div>
+            <div class="options-container single-option">
+                <button class="size-btn" onclick="selectItem(this, 'كولا تنك', 'عبوة', 80)">طلب <span>800</span></button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details"><div class="item-name">كولا لتر</div></div>
+            <div class="options-container single-option">
+                <button class="size-btn" onclick="selectItem(this, 'كولا لتر', '1 لتر', 90)">طلب <span>900</span></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="cart-bar">
+        <div class="total-price">الإجمالي: <span id="total-val">0</span> ل.س</div>
+        <button class="order-btn" onclick="sendWhatsApp()">
+            طلب عبر واتساب 💬
+        </button>
+    </div>
+
+    <script>
+        // تخزين الطلبات النشطة
+        let cart = {};
+
+        function selectItem(button, name, size, price) {
+            const itemKey = `${name} (${size})`;
+            
+            // إذا كان الزر مفعلاً مسبقاً، نقوم بإلغاء التفعيل وحذف العنصر
+            if (button.classList.contains('active')) {
+                button.classList.remove('active');
+                delete cart[itemKey];
+            } else {
+                // إذا كان الصنف بيتزا (له خيارات أحجام)، نلغي تفعيل الأحجام الأخرى لنفس البيتزا
+                if (size !== 'عادي' && size !== 'عبوة' && size !== '1 لتر') {
+                    const siblings = button.parentElement.querySelectorAll('.size-btn');
+                    siblings.forEach(sib => {
+                        sib.classList.remove('active');
+                        // حذف الأحجام الأخرى لنفس الوجبة من السلة
+                        const otherKey = `${name} (${sib.innerText.split('\n')[0].trim()})`;
+                        delete cart[otherKey];
+                    });
+                }
+                
+                // تفعيل الزر الحالي وإضافة العنصر للسلة
+                button.classList.add('active');
+                cart[itemKey] = { name, size, price };
+            }
+            
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            for (let key in cart) {
+                total += cart[key].price;
+            }
+            document.getElementById('total-val').innerText = total;
+        }
+
+        function sendWhatsApp() {
+            if (Object.keys(cart).length === 0) {
+                alert('الرجاء اختيار صنف واحد على الأقل لإرسال الطلب!');
+                return;
+            }
+
+            let phoneNumber = "963953425218"; // الرقم بصيغة دولية صحيحة
+            let text = "🍕 *طلب جديد من منيو Pizza Cut* 🍕\n\n";
+            let total = 0;
+
+            for (let key in cart) {
+                text += `• *${cart[key].name}* - حجم: ${cart[key].size} | السعر: ${cart[key].price} ل.س\n`;
+                total += cart[key].price;
+            }
+
+            text += `\n💰 *الحساب الإجمالي:* ${total} ل.س`;
+            text += `\n\n📍 الموقع: ريف دمشق - أشرفية الصحنايا`;
+            
+            // ترميز النص ليتوافق مع الروابط
+            let url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
